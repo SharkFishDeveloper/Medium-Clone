@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { userRouter } from './routes/user'
-import { blogRouter } from './routes/blog'
+import { blogRouter } from './routes/blog';
+import { cors } from 'hono/cors';
 // POST /api/v1/user/signup
 // POST /api/v1/user/signin
 // POST /api/v1/blog
@@ -19,6 +20,14 @@ const app = new Hono();
 //   userId:string
 // }
 // }>
+
+app.use("/*",cors(
+ {
+  origin: 'http://localhost:5173',
+  allowHeaders: ['Content-Type', 'Authorization'],
+  credentials:true
+ }
+));
 app.get("/",(c)=>{
   return c.json({message:"Hello from here"})
 })

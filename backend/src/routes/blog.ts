@@ -1,9 +1,7 @@
 import { PrismaClient } from '@prisma/client/edge'   
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
-import { bodyLimit } from 'hono/body-limit';
 import { sign,verify } from "hono/jwt";
-import { Bindings } from "hono/types";
 import { createBlogInput, updateBlogInput } from 'overlordzeroking-common-medium';
 
 
@@ -57,7 +55,7 @@ blogRouter.use("/*",async(c,next)=>{
       console.log("body of creating post",body);
       console.log("start");
       const id = c.get("userId");
-      
+      console.log("end");
 
       if(!id){
         c.status(404);
@@ -72,10 +70,12 @@ blogRouter.use("/*",async(c,next)=>{
         }
       })
 
-      console.log("end");
-      return c.json({message:"Blog post created !!",idofBlog:createPost.id})
+      
+
+      return c.json({message:createPost.id})
     } catch (error) {
-      c.status(400);
+      c.status(303);
+      console.log(error);
       return c.json({message:"Unable to create blog !!"})
     }
   })
@@ -125,7 +125,19 @@ blogRouter.use("/*",async(c,next)=>{
       if(!id){
         return c.json({message:"Please signin to continue ..."})
       }
-      const blogs = await prisma.post.findMany({});
+      const blogs = await prisma.post.findMany({
+        select:{
+          content:true,
+          title:true,
+          id:true,
+          author:{
+            select:{
+              name:true
+            }
+          },
+          createdAt:true
+        }
+      });
       return c.json({message:blogs})
     } catch (error) {
       c.status(404);
@@ -150,6 +162,16 @@ blogRouter.use("/*",async(c,next)=>{
       const blog = await prisma.post.findUnique({
         where:{
           id:blogID
+        },select:{
+          author:{
+            select:{
+              name:true
+            }
+          },
+          content:true,
+          title:true,
+          id:true,
+          createdAt:true
         }
       })
       return c.json({message:blog})
