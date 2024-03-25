@@ -23,7 +23,7 @@ const app = new Hono();
 
 app.use("/*",cors(
  {
-  origin: 'http://localhost:5173',
+  origin: 'https://medium-clone-3xt.vercel.app/',
   allowHeaders: ['Content-Type', 'Authorization'],
   credentials:true
  }
