@@ -45,7 +45,7 @@ export const useBlogs = () => {
 }
 
 
-export const useBlog = ({id}:{id:string}) => {
+export const useBlog = ({id}:{id:string|undefined}) => {
     const idc = localStorage.getItem("token");
     console.log("id of user ",id);
     const [loading,setLoading] = useState(false);

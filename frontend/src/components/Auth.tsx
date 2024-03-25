@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { SignupInput } from 'overlordzeroking-common-medium'
-import React, { ChangeEvent, useState } from 'react'
+import  { ChangeEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BACKEND_URL } from '../config'
 import { useNavigate } from 'react-router-dom'
@@ -26,7 +26,8 @@ const Auth = ({type}:loginMethod) => {
         alert(`Signup successfull`);
         navigate("/blogs");
        } catch (error) {
-        alert(JSON.stringify(error.response.data));
+        //ts-expect-error
+        alert("Authentication error");
        }
     }
 
