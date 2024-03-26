@@ -6,7 +6,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "*"
+          "value": "https://medium-clone-3xt.vercel.app/"
         }
       ]
     }
