@@ -46,7 +46,7 @@ export default BlogCard
 export function Avatar({name, size = "small",blog }: { name: string, size?: "small" | "big",blog:boolean }) 
 {   
     const navigator = useNavigate();
-    const [nameS,setnames] = useState("");
+    const [nameS,setnames] = useState(name);
     const [logout,setLogout] = useState(false);
     useEffect(()=>{
         console.log(localStorage.getItem("token"));

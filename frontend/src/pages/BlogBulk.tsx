@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react';
+
 import Appbar from '../components/Appbar'
 import BlogCard from '../components/BlogCard';
 import BlogSkeleton from '../components/BlogSkeleton';
@@ -22,7 +22,7 @@ const BlogBulk = () => {
   return (
     <div className="flex-col justify-center ">
     <Appbar/>
-    {!localStorage.getItem("token") && (
+    {!token && (
        <div className="flex justify-center items-center h-screen bg-gray-100">
        <div className="bg-white shadow-lg rounded-lg p-8 max-w-sm mx-auto text-center">
          <h2 className="text-2xl font-bold mb-4 text-gray-900">You’re Not Signed In</h2>

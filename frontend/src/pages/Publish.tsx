@@ -35,6 +35,7 @@ const Publish = () => {
             navigate(`/api/v1/blog/${response.data.message}`)
             
         } catch (error) {
+            //@ts-ignore
             alert(error?.response?.data.message);
         }finally{
             setLoading(false);
