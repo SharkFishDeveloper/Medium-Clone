@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
-import { sign,verify } from "hono/jwt";
+import { decode, sign,verify } from "hono/jwt";
 import { Bindings } from "hono/types";
 import { signupInput } from 'overlordzeroking-common-medium';
 
@@ -73,6 +73,7 @@ userRouter.post('/signup',async(c)=>{
         return c.json({message:"Invalid password"})
        }
        const jwt = await sign({id:user.id},c.env.JWT_SECRET);
+       console.log("User",user);
        return c.json({message:jwt})
       }else{
         c.status(403);
@@ -83,3 +84,39 @@ userRouter.post('/signup',async(c)=>{
       return c.json({message:error})
     }
   })
+
+  userRouter.post("/get",async(c)=>{
+    try {
+      const prisma = new PrismaClient({
+        datasourceUrl: c.env?.DATABASE_URL,
+    }).$extends(withAccelerate());
+      const body = await c.req.json();
+      var token = body.token;
+      token = token.split(" ")[1];
+      console.log(token);
+      const decodedToken =  decode(token);
+      if(!token){
+        c.status(400);
+        return c.json({message:"Invalid token !!"})
+      }
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: decodedToken.payload.id
+        },
+        select:{
+          name:true
+        }
+      });
+      console.log(user);
+      if(user){
+       return c.json({message:user})
+      }else{
+        c.status(403);
+        return c.json({message:"User does not exist !!"}) 
+      }
+    } catch (error) {
+      console.log(error);
+      return c.json({message:error})
+    }
+  });

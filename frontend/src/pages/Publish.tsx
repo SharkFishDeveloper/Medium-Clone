@@ -14,25 +14,28 @@ const Publish = () => {
 
 
     const publishFx =async ()=>{
-        console.log(localStorage.getItem("token"));
+        const idOfUser = localStorage.getItem("token");
+        if(idOfUser==null){
+            return alert("Please sign in");
+        }
         setLoading(true);
+        let response;
         try {
             console.log(`${BACKEND_URL}/api/v1/blog`);
-            const response = await axios.post(`${BACKEND_URL}/api/v1/blog`, {
+             response = await axios.post(`${BACKEND_URL}/api/v1/blog`, {
                 title,
                 content: description
             }, {
                 headers: {
-                    Authorization: localStorage.getItem("token")
+                    Authorization: idOfUser
                 }
                 ,withCredentials:true
             });
             console.log(response.data.message)
-            // alert("Blog created successfully");
             navigate(`/api/v1/blog/${response.data.message}`)
             
         } catch (error) {
-            alert(error);
+            alert(error?.response?.data.message);
         }finally{
             setLoading(false);
         }

@@ -26,7 +26,7 @@ const Auth = ({type}:loginMethod) => {
         alert(`Signup successfull`);
         navigate("/blogs");
        } catch (error) {
-        //ts-expect-error
+        console.log(error);
         alert("Authentication error");
        }
     }

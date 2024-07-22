@@ -17,11 +17,16 @@ export interface BlogInterface{
 export const useBlogs = () => {
     const id = localStorage.getItem("token");
     console.log("id of user ",id);
+
     const [loading,setLoading] = useState(false);
-    const [blogs,setBlogs] = useState<BlogInterface[]>();
+    const [blogs,setBlogs] = useState<BlogInterface[]|null>(null);
 
     useEffect(()=>{
         setLoading(true);
+        if (!id) {
+          setLoading(false);
+          return;
+        }
         const getblogs = async()=>{
            try {
             const ans = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`,{headers:{
@@ -36,7 +41,7 @@ export const useBlogs = () => {
            }
         };
         getblogs();
-    },[])
+    },[id])
 
   return {
     loading,
@@ -50,9 +55,13 @@ export const useBlog = ({id}:{id:string|undefined}) => {
     console.log("id of user ",id);
     const [loading,setLoading] = useState(false);
     const [blog,setBlog] = useState<BlogInterface>();
+    // if(!idc){
+    //   return alert("Please sign in");
 
+    // }
     useEffect(()=>{
         setLoading(true);
+
         const getblogs = async()=>{
            try {
             const ans = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{headers:{

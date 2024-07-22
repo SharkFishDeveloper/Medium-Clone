@@ -10,6 +10,11 @@ import { cors } from 'hono/cors';
 // GET /api/v1/blog/bulk
 
 const app = new Hono();
+app.use(cors({ origin: "http://localhost:5173",
+  allowHeaders: ['Content-Type', 'Authorization'],
+   credentials:true
+ }));
+
 // <{
 //   Bindings:
 //  { DATABASE_URL:string,
@@ -20,14 +25,15 @@ const app = new Hono();
 //   userId:string
 // }
 // }>
-
-app.use("/*",cors(
- {
-  origin: '*',
-  allowHeaders: ['Content-Type', 'Authorization'],
-  credentials:true
- }
-));
+//http://localhost:5173/
+// ,cors(
+//   {
+//    origin: 'http://localhost:5173',
+//    allowHeaders: ['Content-Type', 'Authorization'],
+//    credentials:true
+//   }
+//  )
+app.use("/*");
 app.get("/",(c)=>{
   return c.json({message:"Hello from here"})
 })
