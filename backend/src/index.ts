@@ -10,11 +10,12 @@ import { cors } from 'hono/cors';
 // GET /api/v1/blog/bulk
 
 const app = new Hono();
-app.use(cors({ origin: "*",
+app.use(cors({ origin: "https://medium-clone-iota-six.vercel.app",
     allowHeaders: ['Content-Type', 'Authorization'],
    credentials:true
  }));
 
+ app.options('*', cors()); // Handle preflight requests
 // <{
 //   Bindings:
 //  { DATABASE_URL:string,
