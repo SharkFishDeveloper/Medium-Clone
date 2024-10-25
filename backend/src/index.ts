@@ -10,7 +10,7 @@ import { cors } from 'hono/cors';
 // GET /api/v1/blog/bulk
 
 const app = new Hono();
-app.use(cors({ origin: "https://medium-clone-iota-six.vercel.app",
+app.use(cors({ origin: "https://medium-clone-deply.vercel.app",
     allowHeaders: ['Content-Type', 'Authorization'],
    credentials:true
  }));
